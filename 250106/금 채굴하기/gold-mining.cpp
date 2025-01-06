@@ -10,6 +10,8 @@ int solve(const vector<vector<int>>& vec, int r, int c, int k, int m) {
    
     for (int i = 1; i < k; i++) {
         for (int j = 1; j < k; j++) {
+            if (i + j > k) continue;
+
             if (r - i >= 0 && c - j >= 0)  totalGold += vec[r - i][c - j];
             if (r + i < size && c + j < size)  totalGold += vec[r + i][c + j];
             if (r - i >= 0 && c + j < size) totalGold += vec[r - i][c + j];
