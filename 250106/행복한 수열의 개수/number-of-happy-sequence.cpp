@@ -18,31 +18,43 @@ int main() {
 
     int total = 0;
     for (int i = 0; i < n; i++) {   //각 행에 대해
-        int combo = 1;//연속한 개수
-        int num = vec[i][0]; //연속한 숫자
+        vector<pair<int, int>> comboNum;
+        int idx = 0;
+        comboNum.push_back({ 1,vec[i][0] });
         for (int j = 1; j < n; j++) {
-            if (vec[i][j] == num) combo++;
+            if (vec[i][j] == comboNum[idx].second) comboNum[idx].first+=1;
             else
             {
-                combo = 1;
-                num = vec[i][j];
+                idx++;
+                comboNum.push_back({ 1,vec[i][j] });
             }
         }
-        if (combo >= m) total++;
+        for (int k = 0; k < comboNum.size(); k++) {
+            if (comboNum[k].first >= m) {
+                total += 1;
+                break;
+            }
+        }
     }
 
-    for (int i = 0; i < n; i++) {   //각 열에 대해
-        int combo = 1;//연속한 개수
-        int num = vec[0][i]; //연속한 숫자
+    for (int i = 0; i < n; i++) {
+        vector<pair<int, int>> comboNum;
+        int idx = 0;
+        comboNum.push_back({ 1,vec[0][i] });
         for (int j = 1; j < n; j++) {
-            if (vec[j][i] == num) combo++;
+            if (vec[j][i] == comboNum[idx].second) comboNum[idx].first += 1;
             else
             {
-                combo = 1;
-                num = vec[j][i];
+                idx++;
+                comboNum.push_back({ 1,vec[j][i] });
             }
         }
-        if (combo >= m) total++;
+        for (int k = 0; k < comboNum.size(); k++) {
+            if (comboNum[k].first >= m) {
+                total += 1;
+                break;
+            }
+        }
     }
 
     cout << total;
