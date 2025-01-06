@@ -16,11 +16,11 @@ int main() {
     }
 
     int large = 0;
-    for (int i = 0; i <= n-3; i++) {
-        for (int j = 0; j <= n-3; j++) {
+    for (int i = 0; i <= n - 3; i++) {
+        for (int j = 0; j <= n - 3; j++) {
             int l = 0;
             for (int dx = i; dx < i + 3; dx++) {
-                for (int dy = i; dy < i + 3; dy++) {
+                for (int dy = j; dy < j + 3; dy++) {
                     l += vec[dx][dy];
                 }
             }
