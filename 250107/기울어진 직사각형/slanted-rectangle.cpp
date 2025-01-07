@@ -3,8 +3,9 @@
 #include <algorithm>
 using namespace std;
 
-//아래오, 아래왼, 위오, 위왼
-//2 1 1 2
+//해설보고 풂..
+
+//오위, 왼위, 왼아래, 오아래
 const int dx[] = { -1,-1,1,1 };
 const int dy[] = {1,-1,-1,1 };
 
