@@ -42,18 +42,18 @@ void bomb(vector<vector<int>>& vec, int x, int y) {
 
 	//-1인부분을 없는걸로 취급 후 새로운 배열 반환
 	for (int i = 0; i < size; i++) {//각 열에 대해서
-		vector<int> temp(size, -1);//거꾸로저장
-		int cnt = size-1;
+		vector<int> temp(0);
 
 		for (int j = 0; j < size; j++) {
 			if (vec[j][i] != -1) {
-				temp[cnt] = vec[j][i];
-				cnt--;
+				temp.push_back(vec[j][i]);
 			}
 		}
 
+		int tsize = temp.size();
 		for (int j = 0; j < size; j++) {
-			vec[size - 1 - j][i] = temp[j];
+			if (tsize - j - 1 >= 0) { vec[size - 1 - j][i] = temp[tsize - 1 - j]; }
+			else vec[size - 1 - j][i] = -1;
 		}
 	}
 }
