@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+int solve(vector<vector<int>> vec, int x, int y, int k, int l) {
+	int dx = 0;
+	int dy = 0;
+	int n = vec.size();//세로
+	int m = vec[0].size();//가로
+
+	for (int i = 0; i < k; i++) {
+		for (int j = 0; j < l; j++) {
+			if (x + i < n && x + i >= 0 && y + j < m && y+j >= 0
+				&& vec[x+i][y+j]>0) {
+				dx = i+1;
+				dy = j+1;
+			}
+			else {
+				return -1;
+			}
+		}
+	}
+	return dx * dy;
+}
+
+int main() {
+	int n, m;
+	cin >> n >> m;
+
+	vector<vector<int>> vec(n, vector<int>(m));
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			cin >> vec[i][j];
+		}
+	}
+
+	int large = 0;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			for (int k = 1; k <= n; k++) {	//가로길이
+				for (int l = 1; l <= m; l++) {//세로길이
+					int res = solve(vec, i, j, k, l);
+					if (res > large) large = res;
+				}
+			}
+		}
+	}
+
+	cout << large;
+
+}
