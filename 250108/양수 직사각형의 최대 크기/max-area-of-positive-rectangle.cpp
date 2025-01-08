@@ -9,6 +9,8 @@ int solve(vector<vector<int>> vec, int x, int y, int k, int l) {
 	int n = vec.size();//세로
 	int m = vec[0].size();//가로
 
+	if (vec[x][y] == 0) return -1;
+
 	for (int i = 0; i < k; i++) {
 		for (int j = 0; j < l; j++) {
 			if (vec[x+i][y+j]==1) {
@@ -20,6 +22,7 @@ int solve(vector<vector<int>> vec, int x, int y, int k, int l) {
 			}
 		}
 	}
+
 	return dx * dy;
 }
 
@@ -36,7 +39,7 @@ int main() {
 		}
 	}
 
-	int large = 0;
+	int large = -1;
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < m; j++) {
 			for (int k = 1; k <= n-i; k++) {	//가로길이
