@@ -12,7 +12,7 @@ bool compare(tuple<int, int, int> t1, tuple<int, int, int> t2) {
 	return get<2>(t1) > get<2>(t2);
 }
 
-void move(int n, vector<tuple<int, int, int>>& roll, vector<tuple<int, int, int>>& numDirWeight) {
+void move(int n, vector<tuple<int, int, int>>& roll, vector<tuple<int, int, int>>& numDirWeight,vector<bool>& excisted) {
 	vector<pair<int,int>> samexy; //번호 int와 int가 같은 위치에잇음
 	int m = roll.size();
 	for (int i = 0; i < m; i++) { //각 구슬에 대해서
@@ -49,9 +49,13 @@ void move(int n, vector<tuple<int, int, int>>& roll, vector<tuple<int, int, int>
 	for (int i = 0; i < k; i++) {
 		int first = samexy[i].first;
 		int sec = samexy[i].second;
+		//둘중 하나만 없어도 건너뛰기
+		if (!excisted[first] || !excisted[sec]) continue;
 
 		int larger;
 		int smaller;
+
+		m = roll.size();
 		for (int i = 0; i < m; i++) { //번호 찾기
 			if (first == get<0>(numDirWeight[i])) {
 				first = i;
@@ -68,6 +72,7 @@ void move(int n, vector<tuple<int, int, int>>& roll, vector<tuple<int, int, int>
 			larger = sec; smaller = first;
 		}
 
+		excisted[get<0>(roll[smaller])] = false;
 		roll.erase(roll.begin() + smaller);
 		get<2>(numDirWeight[larger]) += get<2>(numDirWeight[smaller]);
 		numDirWeight.erase(numDirWeight.begin() + smaller);
@@ -101,14 +106,13 @@ int main() {
 		numDirWeight[i] = ft;
 	}
 
+
+	vector<bool> excisted(m+1, true);
 	while (t--) {
-		move(n, roll, numDirWeight);
+		move(n, roll, numDirWeight, excisted);
 	}
 
 	//남아있는 구슬의 수와 가장 무거운 구슬의 무게 출력
 	sort(numDirWeight.begin(), numDirWeight.end(), compare);
 	cout << numDirWeight.size() << " " << get<2>(numDirWeight[0]);
 }
-
-//  9l 10u
-// 7u 
