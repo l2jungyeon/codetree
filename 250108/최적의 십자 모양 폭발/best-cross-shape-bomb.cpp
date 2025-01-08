@@ -5,11 +5,11 @@
 using namespace std;
 
 bool checkRight(const vector<vector<int>>& vec, int x, int y) {
-	return y + 1 < vec.size() && vec[x][y] != -1 && vec[x][y] == vec[x][y + 1];
+	return y + 1 >= vec.size() || vec[x][y] == -1 || vec[x][y] != vec[x][y + 1];
 }
 
 bool checkDown(const vector<vector<int>>& vec, int x, int y) {
-	return x + 1 < vec.size() && vec[x][y] != -1 && vec[x][y] == vec[x + 1][y];
+	return x + 1 >= vec.size() || vec[x][y] == -1 || vec[x][y] != vec[x + 1][y];
 }
 
 //쌍의 개수 세는 함수
@@ -20,8 +20,8 @@ int countpair(const vector<vector<int>>& vec) {
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
 			//오른쪽과 아래쪽만 확인.
-			if (checkDown(vec, i, j)) total++;
-			if (checkRight(vec, i, j)) total++;
+			if (!checkDown(vec, i, j)) total++;
+			if (!checkRight(vec, i, j)) total++;
 		}
 	}
 
