@@ -14,7 +14,8 @@ bool compare(tuple<int, int, int> t1, tuple<int, int, int> t2) {
 
 void move(int n, vector<tuple<int, int, int>>& roll, vector<tuple<int, int, int>>& numDirWeight) {
 	vector<pair<int,int>> samexy; //번호 int와 int가 같은 위치에잇음
-	for (int i = 0; i < n; i++) { //각 구슬에 대해서
+	int m = roll.size();
+	for (int i = 0; i < m; i++) { //각 구슬에 대해서
 		int curnum = get<0>(roll[i]);
 		int curx = get<1>(roll[i]);
 		int cury = get<2>(roll[i]);
@@ -32,23 +33,25 @@ void move(int n, vector<tuple<int, int, int>>& roll, vector<tuple<int, int, int>
 		else { //움직이기
 			get<1>(roll[i]) = curx + dx[dirIdx];
 			get<2>(roll[i]) = cury + dy[dirIdx];
-			//움직인 후 같은 위치에 있는 구슬이 있나 확인
-			for (int j = 0; j < i; j++) {
-				if (get<1>(roll[j]) == get<1>(roll[i]) && get<2>(roll[j]) == get<2>(roll[i])) {
-					samexy.push_back({ curnum, get<0>(roll[j]) });
-				}
+		}
+
+		//움직인 후 같은 위치에 있는 구슬이 있나 확인
+		for (int j = 0; j < i; j++) {
+			if (get<1>(roll[j]) == get<1>(roll[i]) 
+				&& get<2>(roll[j]) == get<2>(roll[i])) {
+				samexy.push_back({ curnum, get<0>(roll[j]) });
 			}
 		}
 	}
 
 	//움직인 후 같은 위치에 있는 구슬 처리
-	for(int i=0;i<samexy.size();i++) {
+	for (int i = 0; i < samexy.size(); i++) {
 		int first = samexy[i].first;
 		int sec = samexy[i].second;
 
 		int erasenum;
 		int goodnum;
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < m; i++) { //번호 찾기
 			if (first == get<0>(numDirWeight[i])) {
 				first = i;
 			}
@@ -105,3 +108,6 @@ int main() {
 	sort(numDirWeight.begin(), numDirWeight.end(), compare);
 	cout << numDirWeight.size() << " " << get<2>(numDirWeight[0]);
 }
+
+//  9l 10u
+// 7u 
