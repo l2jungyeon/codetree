@@ -5,11 +5,11 @@
 using namespace std;
 
 bool checkRight(const vector<vector<int>>& vec, int x, int y) {
-	return vec[x][y] != -1 && vec[x][y] == vec[x][y + 1];
+	return y + 1 < vec.size() && vec[x][y] != -1 && vec[x][y] == vec[x][y + 1];
 }
 
 bool checkDown(const vector<vector<int>>& vec, int x, int y) {
-	return vec[x][y] != -1 && vec[x][y] == vec[x + 1][y];
+	return x + 1 < vec.size() && vec[x][y] != -1 && vec[x][y] == vec[x + 1][y];
 }
 
 //쌍의 개수 세는 함수
@@ -20,12 +20,8 @@ int countpair(const vector<vector<int>>& vec) {
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
 			//오른쪽과 아래쪽만 확인.
-			if (i + 1 < n && checkDown(vec, i, j)) {
-				total++;
-			}
-			if (j + 1 < n && checkRight(vec, i, j)) {
-				total++;
-			}
+			if (checkDown(vec, i, j)) total++;
+			if (checkRight(vec, i, j)) total++;
 		}
 	}
 
@@ -33,10 +29,9 @@ int countpair(const vector<vector<int>>& vec) {
 }
 
 //폭탄이 터진 후의 배열을 반환하는 함수
-vector<vector<int>> bomb(vector<vector<int>> orvec, int x, int y) {
-	int num = orvec[x][y];
-	int size = orvec.size();
-	vector<vector<int>> vec = orvec;
+void bomb(vector<vector<int>>& vec, int x, int y) {
+	int num = vec[x][y];
+	int size = vec.size();
 
 	for (int i = 0; i < num; i++) {//터진부분을 -1로 만들기
 		if (x + i < size) vec[x + i][y] = -1;
@@ -47,22 +42,21 @@ vector<vector<int>> bomb(vector<vector<int>> orvec, int x, int y) {
 
 	//-1인부분을 없는걸로 취급 후 새로운 배열 반환
 	for (int i = 0; i < size; i++) {//각 열에 대해서
-		vector<int> temp(size, -1);
-		int cnt = 0;
+		vector<int> temp(size, -1);//거꾸로저장
+		int cnt = size-1;
 
 		for (int j = 0; j < size; j++) {
-			if (vec[j][i] != -1) temp[size - 1 - (cnt++)] = vec[j][i];
+			if (vec[j][i] != -1) {
+				temp[cnt] = vec[j][i];
+				cnt--;
+			}
 		}
 
 		for (int j = 0; j < size; j++) {
 			vec[size - 1 - j][i] = temp[j];
 		}
 	}
-
-	return vec;
 }
-
-
 
 int main() {
 	int n;
@@ -78,7 +72,8 @@ int main() {
 	int large = 0;
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
-			vector<vector<int>> newvec = bomb(vec, i, j);
+			vector<vector<int>> newvec = vec;
+			bomb(newvec, i, j);
 			int total = countpair(newvec);
 			if (large < total) large = total;
 		}
