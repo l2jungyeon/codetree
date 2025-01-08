@@ -35,7 +35,7 @@ void move(int n, vector<tuple<int, int, int>>& roll, vector<tuple<int, int, int>
 			get<2>(roll[i]) = cury + dy[dirIdx];
 		}
 
-		//움직인 후 같은 위치에 있는 구슬이 있나 확인
+		//같은 위치에 있는 구슬이 있나 확인
 		for (int j = 0; j < i; j++) {
 			if (get<1>(roll[j]) == get<1>(roll[i]) 
 				&& get<2>(roll[j]) == get<2>(roll[i])) {
@@ -45,12 +45,13 @@ void move(int n, vector<tuple<int, int, int>>& roll, vector<tuple<int, int, int>
 	}
 
 	//움직인 후 같은 위치에 있는 구슬 처리
-	for (int i = 0; i < samexy.size(); i++) {
+	int k = samexy.size();
+	for (int i = 0; i < k; i++) {
 		int first = samexy[i].first;
 		int sec = samexy[i].second;
 
-		int erasenum;
-		int goodnum;
+		int larger;
+		int smaller;
 		for (int i = 0; i < m; i++) { //번호 찾기
 			if (first == get<0>(numDirWeight[i])) {
 				first = i;
@@ -60,16 +61,16 @@ void move(int n, vector<tuple<int, int, int>>& roll, vector<tuple<int, int, int>
 			}
 		}
 
-		if (get<2>(numDirWeight[first]) > get<2>(numDirWeight[sec])) {
-			erasenum = sec; goodnum = first;
+		if (first > sec) {
+			larger = first; smaller = sec;
 		}
 		else {
-			erasenum = first; goodnum = sec;
+			larger = sec; smaller = first;
 		}
 
-		roll.erase(roll.begin() + erasenum);
-		get<2>(numDirWeight[goodnum]) += get<2>(numDirWeight[erasenum]);
-		numDirWeight.erase(numDirWeight.begin() + erasenum);
+		roll.erase(roll.begin() + smaller);
+		get<2>(numDirWeight[larger]) += get<2>(numDirWeight[smaller]);
+		numDirWeight.erase(numDirWeight.begin() + smaller);
 	}
 
 }
