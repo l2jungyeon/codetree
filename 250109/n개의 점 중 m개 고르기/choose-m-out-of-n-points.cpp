@@ -47,12 +47,12 @@ void solve(int cnt, int m, int idx, const vector<pair<int, int>>& vec, vector<pa
 
 	int n = vec.size();
 
-	vector<pair<int, int>>& curSelectVec = selectVec;
+	// vector<pair<int, int>>& curSelectVec = selectVec;
 	//n개중 m개 선택하기
 	for (int i = idx; i < n; i++) {
-		curSelectVec.push_back(vec[i]);
-		solve(cnt + 1, m, i+1, vec, curSelectVec);
-		curSelectVec.erase(curSelectVec.end() - 1);
+		selectVec.push_back(vec[i]);
+		solve(cnt + 1, m, i+1, vec, selectVec);
+		selectVec.erase(selectVec.end() - 1);
 	}
 
 	return;
