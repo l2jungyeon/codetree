@@ -18,31 +18,28 @@ int calc(const vector<vector<int>>& vec, const vector<pair<int, int>>& pairVec) 
 
 vector<int> minnumvec;
 
-void solve(int cnt, const vector<vector<int>>& vec, vector<bool>& row, vector<bool>& col, vector<pair<int,int>>& pairVec) {
+void solve(int cnt, const vector<vector<int>>& vec, vector<bool>& row, vector<bool>& col, vector<pair<int,int>>& pair) {
 	int n = vec.size();
 	if (cnt == n) {
-		minnumvec.push_back(calc(vec, pairVec));
+		minnumvec.push_back(calc(vec, pair));
 		return;
 	}
 
 	int currow, curcol;
 
-	vector<bool> rowvec = row;
-	vector<bool> colvec = col;
-	vector<pair<int, int>> pair = pairVec;
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
-			if (!rowvec[i] && !colvec[j]) {
+			if (!row[i] && !col[j]) {
 				currow = i; curcol = j;
-				rowvec[currow] = true;
-				colvec[curcol] = true;
+				row[currow] = true;
+				col[curcol] = true;
 				pair.push_back({ currow,curcol });
 				
-				solve(cnt + 1, vec, rowvec, colvec, pair);
+				solve(cnt + 1, vec, row, col, pair);
 
 				pair.erase(pair.end() - 1);
-				rowvec[currow] = false;
-				colvec[curcol] = false;
+				row[currow] = false;
+				col[curcol] = false;
 			}
 		}
 	}
