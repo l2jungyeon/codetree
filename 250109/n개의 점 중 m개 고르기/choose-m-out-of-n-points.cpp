@@ -30,33 +30,34 @@ void calc(vector<pair<int, int>> selectVec) {
 
 			ll dis = calcalc(ax, ay, bx, by);
 
-			if (dis > large) large = dis;
+			dist.push_back(dis);
+			//if (dis > large) large = dis;
 		}
 	}
 
-	if (large != 0) {
-		dist.push_back(large);
-	}
+	//if (large != 0) {//m개중 가장 거리가 먼것만 dist 벡터에 넣기
+	//	dist.push_back(large);
+	//}
 }
-
+/*
 void solve(int cnt, int m, const vector<pair<int, int>>& vec, vector<pair<int, int>>& selectVec) {
-	if (cnt == m) {
+	if (cnt == m) { //m개를 모두 선택한 경우
 		calc(selectVec);
 		return;
 	}
 
 	int n = vec.size();
 
-	//n개중 m개 선택하기
+	//n개중 m개 선택하기//굳이..?
 	for (int i = 0; i < n; i++) {
 		selectVec.push_back(vec[i]);
 		solve(cnt + 1, m, vec, selectVec);
-		selectVec.erase(selectVec.end()-1);
+		selectVec.erase(selectVec.end() - 1);
 	}
 
 	return;
 }
-
+*/
 int main() {
 	int n, m;
 	//n개의 점들중 m개 고르기
@@ -70,7 +71,8 @@ int main() {
 	}
 
 	vector<pair<int, int>> selectVec;
-	solve(0, m, vec, selectVec);
+	//solve(0, m, vec, selectVec);
+	calc(vec);
 	
 	sort(dist.begin(), dist.end());
 	cout << dist[0];
