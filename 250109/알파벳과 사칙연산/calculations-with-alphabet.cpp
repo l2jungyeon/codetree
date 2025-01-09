@@ -3,8 +3,8 @@
 #include <unordered_map>
 using namespace std;
 
-int calc(vector<char> str1, vector<char> str2, unordered_map<char,int> dict) {
-    int prevNum = dict[str1[0]];
+long long calc(vector<char> str1, vector<char> str2, unordered_map<char,int> dict) {
+    long long prevNum = dict[str1[0]];
     char curCal;
     for (int i = 1; i < str1.size() + str2.size(); i++) {
         if (i % 2 == 0) {
@@ -22,11 +22,11 @@ int calc(vector<char> str1, vector<char> str2, unordered_map<char,int> dict) {
     return prevNum;
 }
 
-int maxnum = 0;
+long long maxnum = 0;
 
 void solve(vector<char> str1, vector<char> str2, unordered_map<char, int>& dict, int idx) {
     if (idx == str1.size()) {
-        int c = calc(str1, str2, dict);
+        long long c = calc(str1, str2, dict);
         if (maxnum < c) maxnum = c;
         return;
     }
