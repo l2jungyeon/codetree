@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
 using namespace std;
 
 long long calc(vector<char> str1, vector<char> str2, unordered_map<char,int> dict) {
@@ -22,12 +23,12 @@ long long calc(vector<char> str1, vector<char> str2, unordered_map<char,int> dic
     return prevNum;
 }
 
-long long maxnum = 0;
+vector<long long> resultVec;
 
 void solve(vector<char> str1, vector<char> str2, unordered_map<char, int>& dict, int idx) {
     if (idx == str1.size()) {
         long long c = calc(str1, str2, dict);
-        if (maxnum < c) maxnum = c;
+        resultVec.push_back(c);
         return;
     }
 
@@ -60,5 +61,6 @@ int main() {
 
     unordered_map<char, int> dict;
     solve(str1, str2, dict, 0);
-    cout << maxnum;
-}
+    sort(resultVec.begin(),resultVec.end());
+    cout << resultVec[resultVec.size()-1];
+    }
