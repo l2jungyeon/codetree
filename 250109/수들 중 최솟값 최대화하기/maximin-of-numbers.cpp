@@ -4,8 +4,8 @@
 using namespace std;
 
 
-int calc(const vector<vector<int>>& vec, vector<pair<int, int>> pairVec) {
-	int smaller = INT16_MAX;
+int calc(const vector<vector<int>>& vec, const vector<pair<int, int>>& pairVec) {
+	int smaller = 100001;
 	for (pair<int, int> p : pairVec) {
 		int r = p.first;
 		int c = p.second;
@@ -24,26 +24,29 @@ void solve(int cnt, const vector<vector<int>>& vec, vector<bool>& row, vector<bo
 		minnumvec.push_back(calc(vec, pairVec));
 		return;
 	}
+
 	int currow, curcol;
 
+	vector<bool> rowvec = row;
+	vector<bool> colvec = col;
+	vector<pair<int, int>> pair = pairVec;
 	for (int i = 0; i < n; i++) {
-		if (row[i] == false) {
-			row[i] = true;
-			currow = i; break;
-		}
-	}
-	for (int i = 0; i < n; i++) {
-		if (col[i] == false) {
-			col[i] = true;
-			curcol = i; 
+		for (int j = 0; j < n; j++) {
+			if (!rowvec[i] && !colvec[j]) {
+				currow = i; curcol = j;
+				rowvec[currow] = true;
+				colvec[curcol] = true;
+				pair.push_back({ currow,curcol });
+				
+				solve(cnt + 1, vec, rowvec, colvec, pair);
 
-			pairVec.push_back({ currow,curcol });
-			solve(cnt + 1, vec, row, col, pairVec);
-			pairVec.erase(pairVec.end() - 1);
-			row[currow] = false;
-			col[curcol] = false;
+				pair.erase(pair.end() - 1);
+				rowvec[currow] = false;
+				colvec[curcol] = false;
+			}
 		}
 	}
+	return;
 }
 
 int main() {
