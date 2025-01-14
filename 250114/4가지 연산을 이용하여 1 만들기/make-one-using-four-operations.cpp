@@ -4,7 +4,7 @@
 using namespace std;
 
 int bfs(int n) {
-	//priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> q;
+	vector<int> cntVec(INT8_MAX, INT8_MAX);
 	queue<pair<int, int>> q;
 	//횟수, 현재 숫자
 	q.push({ 0,n });
@@ -14,6 +14,8 @@ int bfs(int n) {
 		int num = q.front().second;
 		q.pop();
 
+		if (cnt < cntVec[num]) cntVec[num] = cnt;
+		else cnt = cntVec[num];
 		if (num == 1) return cnt;
 
 		for (int i = 0; i < 4; i++) {
