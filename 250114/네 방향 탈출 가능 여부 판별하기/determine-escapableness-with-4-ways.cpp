@@ -14,7 +14,7 @@ bool solve(vector<vector<int>> graph) {
 
 	queue<pair<int,int>> q;
 	if (graph[0][0] == 1) {
-		q.push({ 0,0 }); visited[0][0] = true;
+		q.push({ 0,0 });
 	}
 
 	while (!q.empty()) {
