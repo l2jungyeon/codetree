@@ -14,7 +14,7 @@ int main() {
     for(int i=4;i<n+1;i++){
         // if(dp[i-2]!=0) dp[i]++;
         // if(dp[i-3]!=0) dp[i]++;
-        dp[i]=dp[i-2]+dp[i-3];
+        dp[i]=(dp[i-2]+dp[i-3])%MOD;
     }
     cout << dp[n];
     return 0;
