@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <queue>
+#include <tuple>
 using namespace std;
 
 const int dx[] = { 0,0,1,-1 };
@@ -14,26 +14,24 @@ int main() {
 	cin >> n;
 
 	vector<vector<int>> vec(n, vector<int>(n));
+	vector<tuple<int, int, int>> cell(n); //값,x,y
+
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
 			cin >> vec[i][j];
+			cell.push_back({ vec[i][j],i,j });
 		}
 	}
+
+	sort(cell.begin(), cell.end());
 
 	vector<vector<int>> dp(n, vector<int>(n,1));
-	//인접한 칸이 자신보다 작으면 인접한칸dp +1
+	//작은칸부터 갱신
 
-	queue<pair<int, int>> q;
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			q.push({ i,j });
-		}
-	}
-
-	while (!q.empty()) {
-		int curx = q.front().first;
-		int cury = q.front().second;
-		q.pop();
+	for(tuple<int,int,int> t:cell){
+		int curx = get<1>(t);
+		int cury = get<2>(t);
+		int curVal = get<0>(t);
 
 		for (int d = 0; d < 4; d++) {
 			int x = curx + dx[d];
@@ -45,8 +43,6 @@ int main() {
 				}
 				else if (vec[x][y] < vec[curx][cury]) {//다음께 더 작은 경우
 					dp[curx][cury] = max(dp[x][y] + 1,dp[curx][cury]);
-					//현재 dp 업데이트
-					q.push({ x,y });
 				}
 			}
 		}
