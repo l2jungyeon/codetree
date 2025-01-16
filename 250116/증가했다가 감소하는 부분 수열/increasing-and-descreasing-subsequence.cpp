@@ -16,15 +16,17 @@ int main() {
 	for (int i = 1; i < n; i++) {
 		for (int j = 0; j < i; j++) {
 			if (vec[i] > vec[j]) {
-				get<0>(dp[i]) = max(get<0>(dp[i]), get<0>(dp[j]) + 1); //증가
+				get<0>(dp[i]) = max(get<0>(dp[i]), get<0>(dp[j]) + 1); //증가수열
 			}
 			if (vec[i] < vec[j]) {
 				get<1>(dp[i]) = max(get<1>(dp[i]), get<1>(dp[j]) + 1); //감소수열
-				if (get<2>(dp[j]) > 1) {
-					get<2>(dp[i]) = max(get<2>(dp[j])+1, get<2>(dp[i]));
+
+				if (get<2>(dp[j]) > 1) { //증가했다가 감소하는 수열이었을 때
+					get<2>(dp[i]) = max(get<2>(dp[j]) + 1, get<2>(dp[i]));
 				}
-				if (get<0>(dp[j]) > 1)
+				if (get<0>(dp[j]) > 1 && get<2>(dp[j]) == 1) {//증가했다가 감소하는 수열의 첫 감소 부분일 때
 					get<2>(dp[i]) = max(get<0>(dp[j]) + get<1>(dp[j]), get<2>(dp[i]));
+				}
 			}
 		}
 	}
