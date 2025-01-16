@@ -26,7 +26,7 @@ int main() {
 				if (updowndp[j] > 1) { //증가했다가 감소하는 수열이었을 때
 					updowndp[i] = max(updowndp[j] + 1, updowndp[i]);
 				}
-				else if (updp[j] > 1 && updowndp[j] == 1) {//증가했다가 감소하는 수열의 첫 감소 부분일 때
+				else if (updp[j] > 1) {//증가했다가 감소하는 수열의 첫 감소 부분일 때
 					updowndp[i] = max(updp[j] + 1, updowndp[i]);
 				}
 			}
@@ -35,8 +35,7 @@ int main() {
 
 	int large=0;
 	for (int i = 0; i < n; i++) {
-		int l = max({ updp[i],downdp[i],updowndp[i] });
-		if (large < l) large = l;
+		large = max({ large, updp[i],downdp[i],updowndp[i] });
 	}
 
 	cout << large;
