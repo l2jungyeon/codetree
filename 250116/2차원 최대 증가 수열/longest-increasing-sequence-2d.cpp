@@ -17,7 +17,7 @@ int main() {
 			cell.push_back({ vec[i][j],i,j });
 		}
 	}
-	sort(cell.begin(), cell.end());	//오름차순으로 정렬(작은것부터 처리)
+	// sort(cell.begin(), cell.end());	//오름차순으로 정렬(작은것부터 처리)
 
 	vector<vector<int>> dp(n, vector<int>(m, INT_MIN));
 	//i,j까지 왔을 때 밟을 수 있는 최대 칸 수
