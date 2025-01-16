@@ -12,9 +12,8 @@ int main() {
 		cin >> vec[i];
 	}
 
-	vector<int> dp(n);
+	vector<int> dp(n,1);
 	//dp[i] = idx i까지의 최장 증가 부분수열
-	dp[0] = 1;
 	for (int i = 1; i < n; i++) {
 		for (int j = 0; j < i;j++) {
 			if (vec[j] < vec[i]) {
