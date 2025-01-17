@@ -23,7 +23,5 @@ int main() {
 		}
 	}
 
-	for (int i = 0; i < m+1; i++) {
-		cout << dp[i] << endl;
-	}
+	cout << dp[m];
 }
