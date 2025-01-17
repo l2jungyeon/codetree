@@ -17,13 +17,9 @@ int main() {
 	//dp[i]=i원인경우 최소 동전의 수
 	dp[0] = 0;
 	for (int i = 1; i <= m; i++) {//dp[i]
-		for (int j = 0; j < i; j++) {//dp[j]와 비교
-			dp[i] = min(dp[j] + dp[i - j], dp[i]);
-		}
 		for (int c = 0; c < n; c++) {//기존 동전과의 비교
-			if (i % vec[c] == 0 && i / vec[c] > 0) {
-				dp[i] = min(i / vec[c], dp[i]);
-			}
+			if(i>=vec[c])
+				dp[i] = min(dp[i],dp[i-vec[c]]+1);
 		}
 	}
 
