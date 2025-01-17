@@ -25,6 +25,6 @@ int main() {
 	}
 
 
-	if (dp[m] == INT_MAX) cout << "No";
+	if (dp[m] == 10001) cout << "No";
 	else cout << "Yes";
 }
