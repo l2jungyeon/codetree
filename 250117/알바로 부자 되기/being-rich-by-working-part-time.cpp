@@ -22,15 +22,15 @@ int main() {
 	
 	for (int i = 2; i <= n; i++) {
 		for (int j = 1; j < i; j++) {
-			if (vec[j].second >= vec[i].first) {//겹치면
-				dp[i] = max({ dp[j - 1] + cost[i], dp[i], dp[j]});
+			if (vec[j].second < vec[i].first) {//안겹치면
+				dp[i] = max({ dp[j] + cost[i], dp[i]});
 			}
-			else dp[i] = max(dp[j] + cost[i],dp[i]);
 		}
 	}
 
 	/*for (int i = 1; i <= n; i++) {
 		cout << dp[i]<<endl;
 	}*/
-	cout << dp[n];
+	sort(dp.begin(),dp.end());
+	cout << dp[dp.size()-1];
 }
