@@ -18,11 +18,11 @@ int main() {
 	dp[0] = 0;
 	for (int i = 1; i < m + 1; i++) {
 		for (int j = 0; j < n; j++) {
-            if(i-vec[j]>=0)
-			    dp[i] = max(dp[i - vec[j]] + 1, dp[i]);
+			if(i>=vec[j])
+				dp[i] = max(dp[i - vec[j]] + 1, dp[i]);
 		}
 	}
 
-	if (dp[m] == INT_MIN) cout << "-1";
+	if (dp[m] < 0) cout << "-1";
 	else cout << dp[m];
 }
