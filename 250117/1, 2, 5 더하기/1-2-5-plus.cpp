@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <climits>
 using namespace std;
+#define MOD 10007
 
 int main() {
 	int n;
@@ -18,5 +19,5 @@ int main() {
 		}
 	}
 
-	cout << dp[n] - dp[n - 1];
+	cout << (dp[n] - dp[n - 1]) %MOD;
 }
