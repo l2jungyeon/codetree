@@ -12,29 +12,28 @@ int main() {
 	cin >> n;
 
 	vector<int> vec(n);
-	int sum = 0;
 	for (int i = 0; i < n; i++) {
 		cin >> vec[i];
-		sum += vec[i];
 	}
-	//4 7 8 9 5 (33)
-	//4 5 7 8 9
 
 	sort(vec.begin(), vec.end());
 
 	vector<int> dp(n);//idx까지 고려했을 때 그룹 a의 최적합
-	/*for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; i++) {
 		dp[i] = vec[i];
-	}*/
-
-	for (int i = 0; i < n; i++) {		//각 원소마다
-		for (int j = n-1; j >=0; j--) {	//dp 순회
-			if (j >= i) {
-				if (abs(sum - 2 * (dp[j - i] + vec[i])) < abs(sum - 2 * dp[j])) {
-					dp[j] = dp[j - i] + vec[i];
-				}
-			}
+	}
+	
+	int sum = dp[0];
+	for (int i = 1; i < n; i++) {		//각 원소마다
+		sum += dp[i];
+		for (int j = 0; j < i;j++) {	//dp 순회
+			if (abs(sum - 2 * (dp[j] + vec[i])) < abs(sum - 2 * dp[i]))
+				dp[i] = dp[j] + vec[i];
 		}
+	}
+
+	for (int i = 0; i < n; i++) {
+		cout << dp[i] << endl;
 	}
 
 	cout << abs(sum - 2*dp[n - 1]);
