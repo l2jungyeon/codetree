@@ -23,10 +23,8 @@ int main() {
 
 	//dp[i][j]=1계단을 i개 올랐고, j번째 계단까지 고려했을 때의 최대합
 	//dp[i][j] = max(dp[i-1][j-1]+vec[i], dp[i][j-1],dp[i][j])
-	//j번째 계단을 오르는 경우(한계단 오르기) or j번째 계단을 오르지 않는 경우(두계단 오르기)
-	//j-1번째 계단에서 2계단을 오르는 경우
+	//j번째 계단을 오르는 경우(한계단 오르기) or j-2번째 계단에서 2계단을 오르는 경우
 	vector<vector<int>> dp(4, vector<int>(n));
-	dp[0][0] = 0;
 	dp[0][1] = vec[1];
 	dp[1][0] = vec[0];
 	dp[2][1] = vec[0] + vec[1];
@@ -39,14 +37,18 @@ int main() {
 
 	for (int i = 1; i < 4; i++) { //1계단을 i개 올랐고, j번째 계단까지 고려
 		for (int j = i; j < n; j++) {
-			if (j == n - 1) dp[i][j] = max({ dp[i][j], dp[i][j - 2] + vec[j],dp[i - 1][j - 1] + vec[j] });
+			if (j == n - 1) dp[i][j] = max({ dp[i][j - 2] + vec[j], dp[i - 1][j - 1] + vec[j] });
 			else {
-				dp[i][j] = max({ dp[i - 1][j - 1] + vec[j],dp[i][j - 1] ,dp[i][j] });
-				if (j - 2 >= 0)dp[i][j] = max(dp[i][j], dp[i][j - 2] + vec[j]);
+				dp[i][j] = dp[i - 1][j - 1] + vec[j];
+				if (j - 2 >= i)dp[i][j] = max(dp[i][j], dp[i][j - 2] + vec[j]);
 			}
 
 		}
 	}
 
-	cout << dp[3][n - 1];
+	int ans = 0;
+	for (int j = 0; j < 4; j++)
+		ans = max(ans, dp[j][n - 1]);
+
+	cout << ans;
 }
