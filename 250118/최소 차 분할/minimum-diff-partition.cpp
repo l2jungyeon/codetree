@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
-#include <climit>
+#include <climits>
 using namespace std;
 
 int main() {
