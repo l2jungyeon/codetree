@@ -19,6 +19,8 @@ int main() {
 		if (vec[i] < 0)minusIdx.push_back(i);
 	}
 
+
+	int large = INT_MIN;
 	vector<vector<int>> dp(k + 1, vector<int>(n));
 	//dp[i][j]: 음수가 i개 이고 idx j까지 고려시 최대합
 	int preIdx = -1;
@@ -31,9 +33,11 @@ int main() {
 		if (preIdx != -1) dp[0][i] += dp[0][preIdx];
 		preIdx = i;
 		}
+
+        if (large < dp[0][i])large = dp[0][i];
+
 	}
 
-	int large = INT_MIN;
 	for (int i = 1; i <= k; i++) {
 		for (int j = minusIdx[i-1]; j < n; j++) {
 			if (j == minusIdx[i-1]) {
