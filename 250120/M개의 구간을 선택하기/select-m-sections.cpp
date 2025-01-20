@@ -28,21 +28,20 @@ int main() {
 					dp[i][j] = dp[i - 1][j - 2] + vec[j];
 					continue;
 				}
-				for (int maxJ = (i - 1) * 2 + startIdx-1; maxJ < j-1; maxJ++){
+				for (int maxJ = (i - 1) * 2 + startIdx-2; maxJ < j-1; maxJ++){
 					dp[i][j] = max({ dp[i - 1][maxJ] + vec[j], dp[i][j - 1] + vec[j],dp[i][j] });
 				}
 			}
 		}
-
-		/*if(startIdx == 0 || startIdx ==1){
-		for (int i = 1; i < m + 1; i++) {
-			for (int j = 0; j < n; j++) {
-				cout << dp[i][j] << " ";
-			}
-			cout << endl;
-		}
-		}*/
-
+		
+			// for (int i = 1; i < m + 1; i++) {
+			// 	for (int j = 0; j < n; j++) {
+			// 		cout << dp[i][j] << " ";
+			// 	}
+			// 	cout << endl;
+			// }
+			// cout << endl;
+		
 		for (int j = 0; j < n; j++) {
 			if (ans < dp[m][j]) ans = dp[m][j];
 		}
@@ -50,3 +49,7 @@ int main() {
 	
 	cout << ans;
 }
+
+/*10 3
+-300 -200 -600 -231 -997 -456 -10 -2 -3 -1
+*/
