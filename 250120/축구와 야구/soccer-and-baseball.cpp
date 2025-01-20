@@ -15,19 +15,25 @@ int main() {
 		cin >> vec[i][0] >> vec[i][1];
 	}
 
-	vector<vector<vector<ll>>> dp(n, vector<vector<ll>>(12, vector<ll>(10,0)));
-	//dp[i][j][k] i번째 학생을 고려중일 때, 축구,야구
-	dp[0][1][0] = vec[0][0];
-	dp[0][0][1] = vec[0][1];
+	vector<vector<vector<int>>> dp(n+1, vector<vector<int>>(12, vector<int>(10, INT_MIN)));
+	
+	dp[0][0][0] = 0;
+	for (int i = 1; i <= n; i++) {
+		for (int j = 0; j <= 11; j++) {
+			for (int k = 0; k <= 9; k++) {
+				dp[i][j][k] = dp[i - 1][j][k];
 
-	for (int i = 1; i < n; i++) {
-		for (int j = 1; j <= 11; j++) {
-			for (int k = 1; k <= 9; k++) {
-				dp[i][j][k] = max({ dp[i - 1][j - 1][k] + vec[i][0], 
-					dp[i - 1][j][k - 1] + vec[i][1], dp[i - 1][j][k] });
+				if (j > 0 && dp[i - 1][j - 1][k] != INT_MIN) {
+					//이전상태에서 축구를 선택하는 경우
+					dp[i][j][k] = max(dp[i - 1][j - 1][k] + vec[i-1][0], dp[i][j][k]);
+				}
+				if (k > 0 && dp[i - 1][j][k - 1] != INT_MIN) {
+					//이전상태에서 야구를 선택하는 경우
+					dp[i][j][k] = max(dp[i - 1][j][k - 1] + vec[i-1][1], dp[i][j][k]);
+				}
 			}
 		}
 	}
 
-	cout << dp[n - 1][11][9];
+	cout << dp[n][11][9];
 }
