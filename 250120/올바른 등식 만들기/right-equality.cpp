@@ -34,5 +34,5 @@ int main() {
 	}
 
 	if (m == 0)cout << dp[n - 1][m];
-	else cout << dp[n - 1][m] / 2;
+	else cout << dp[n - 1][abs(m)] / 2;
 }
