@@ -32,5 +32,6 @@ int main() {
 		}
 	}
 
-	cout << dp[n - 1][m] / 2;
+	if (m == 0)cout << dp[n - 1][m];
+	else cout << dp[n - 1][m] / 2;
 }
