@@ -16,7 +16,7 @@ int main() {
 
 	int ans = INT_MIN;
 
-	for (int startIdx = 0; startIdx < n; startIdx++) {
+	for (int startIdx = 0; startIdx <= n-(2*m-1); startIdx++) {
 		//idx 0부터인것...
 		vector<vector<ll>> dp(m + 1, vector<ll>(n, INT_MIN));
 		dp[1][startIdx] = vec[startIdx];
