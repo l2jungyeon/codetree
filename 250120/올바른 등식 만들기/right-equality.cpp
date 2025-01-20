@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 using namespace std;
+typedef long long ll;
 
 int main() {
 	int n, m;
@@ -13,7 +14,7 @@ int main() {
 		cin >> vec[i];
 	}
 
-	vector<vector<int>> dp(n, vector<int>(21, 0));
+	vector<vector<ll>> dp(n, vector<ll>(21, 0));
 	//dp[i][j]=idx i까지 고려시 |j|를 만들 수 있는 경우의 수
 
 	dp[0][vec[0]] = 2;
