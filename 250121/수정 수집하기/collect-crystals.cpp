@@ -43,13 +43,6 @@ int main() {
 				}
 				else {//움직인 후의 위치와 다르다면
 					//j번째에서 움직이기 vs 안움직이기
-
-					if (j == i) {
-						dp[k][i][j] = dp[k][i - 1][j - 1] + 1; //첫시작이라면 무조건 움직여주기
-						preLR = vec[j];
-						continue;
-					}
-
 					dp[k][i][j] = max(dp[k][i - 1][j - 1] + 1, dp[k][i][j - 1]);
 					if (dp[k][i][j] == dp[k][i - 1][j - 1] + 1) {
 						preLR = vec[j];
