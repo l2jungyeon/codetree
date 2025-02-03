@@ -9,14 +9,25 @@ using namespace std;
 
 typedef long long ll;
 
+string revStr(string str) {
+	int n = str.size();
+	string newstr = "";
+	for (int i = n - 1; i >= 0; i--) {
+		newstr += str[i];
+	}
+
+	return newstr;
+}
+
+//뒤에서부터 31을 계속 곱해주는느낌으로
 ll solve(int idx, ll sum, string str) {
-	if (idx == str.size()) {
+	if (idx == str.size()-1) {
+		sum += str[idx] - 96;
 		return sum % MOD;
 	}
 
-	ll r = pow(R, idx); //계수
 	int si = str[idx] - 96;
-	sum += r * si;
+	sum = (sum + si) * R % MOD;
 	return solve(idx + 1, sum, str);
 }
 
@@ -27,5 +38,6 @@ int main() {
 	string str;
 	cin >> str;
 
+	str = revStr(str);
 	cout << solve(0, 0, str);
 }
