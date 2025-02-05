@@ -1,41 +1,48 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <algorithm>
 using namespace std;
 
-string pfunc(int n) {
-	string p="";
-	n *= 2;
-	while (n--) {
-		if (n % 2 == 1)p += "I";
-		else p += "O";
-	}
+int n; int m; string str;
 
-	p += "I";
-	return p;
-}
+//호출하는 함수(이후에 나오는 idx를 검사해서 p인지 확인
+
+//bool solve(int idx) {
+//	int cnt = 2*n;
+//	while (n--) {
+//		if (n % 2 == 0) {
+//			if(str[idx])
+//		}
+//	}
+//}
 
 int main() {
-	int n, s;
 	cin >> n;
-	cin >> s;
-	string str;
+	cin >> m;
 	cin >> str;
 
-	string p = pfunc(n);
-
-	int idx = 0;
-	int cnt = 0;
-	while (true) {
-		string substr = str.substr(idx, str.size());
-		int subidx = substr.find(p);
-
-		if (subidx == -1)break;
-		else if (subidx + idx < str.size())cnt++;
-
-		idx += subidx + 2;
+	//idx 하나씩 가면서 I가 나올때마다 함수를 호출하는 함수
+	vector<int> dp(m, 0);
+	char prevChar = 'O';
+	int ans = 0;
+	for (int i = 0; i < m; i++) {
+		char ch = str[i];
+		if (ch != prevChar && i - 1 >= 0 ) {//이전꺼랑 다를때
+			if (dp[i - 1] == 2*n+1)  
+				dp[i] = dp[i - 1] - 1;
+			else 
+				dp[i] = dp[i - 1] + 1;
+			prevChar = ch;
+		}
+		else if (ch == 'I') {
+			//이전꺼랑은 이어지지않지만
+			//새로 시작할 수 있을 때
+			prevChar = ch;
+			dp[i] = 1;
+		}
+		if (dp[i] == 2 * n + 1) ans++;
 	}
 
-	cout << cnt;
+	cout << ans;
+
 }
