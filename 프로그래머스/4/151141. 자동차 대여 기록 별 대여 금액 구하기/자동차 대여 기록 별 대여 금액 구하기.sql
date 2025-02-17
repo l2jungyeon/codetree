@@ -1,0 +1,48 @@
+# 자동차 종류가 '트럭'인 자동차의 대여 기록에 대해서 
+# 대여 기록 별로 대여 금액(컬럼명: FEE)을 구하여 
+# 대여 기록 ID와 대여 금액 리스트를 출력
+# 대여 금액 내림차순, 기록 ID 내림차순
+
+WITH TRUCK_TABLE AS (
+    SELECT CAR_TYPE, CAR_ID, DAILY_FEE
+    FROM CAR_RENTAL_COMPANY_CAR 
+    WHERE CAR_TYPE ="트럭"
+),
+
+    DATEDIFF_TABLE AS(
+        SELECT HISTORY_ID, DATEDIFF(END_DATE, START_DATE)+1 AS DIFF, CAR_ID
+        FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY C
+    ),
+        
+    DISC_TABLE AS(
+        SELECT CAR_TYPE, REGEXP_REPLACE(DURATION_TYPE, '[^0-9]', '') AS DURATION_TYPE, 
+        REGEXP_REPLACE(DISCOUNT_RATE, '[^0-9]', '') AS DISCOUNT_RATE
+        FROM CAR_RENTAL_COMPANY_DISCOUNT_PLAN
+        WHERE CAR_TYPE="트럭"
+    )
+    
+SELECT
+    D.HISTORY_ID,
+    CASE
+    WHEN D.DIFF>=90 THEN ROUND(T.DAILY_FEE*D.DIFF*(1-(
+                SELECT DISCOUNT_RATE 
+                FROM DISC_TABLE 
+                WHERE DURATION_TYPE = 90 
+            )/100),0)
+     WHEN D.DIFF>=30 THEN ROUND(T.DAILY_FEE*D.DIFF*(1-(
+                SELECT DISCOUNT_RATE 
+                FROM DISC_TABLE 
+                WHERE DURATION_TYPE = 30 
+            )/100),0)
+     WHEN D.DIFF>=7 THEN ROUND(T.DAILY_FEE*D.DIFF*(1-(
+                SELECT DISCOUNT_RATE 
+                FROM DISC_TABLE 
+                WHERE DURATION_TYPE = 7
+            )/100),0)
+    ELSE ROUND(T.DAILY_FEE*D.DIFF,0)
+    END AS FEE
+FROM 
+    TRUCK_TABLE T 
+    INNER JOIN DATEDIFF_TABLE D ON T.CAR_ID = D.CAR_ID
+    # INNER JOIN DISC_TABLE C ON T.CAR_TYPE =C.CAR_TYPE
+ORDER BY 2 DESC, 1 DESC
