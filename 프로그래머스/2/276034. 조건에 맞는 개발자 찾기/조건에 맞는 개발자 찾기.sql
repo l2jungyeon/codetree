@@ -1,0 +1,14 @@
+# DEVELOPERS 테이블에서 Python이나 C# 스킬을 가진 개발자의 정보를 조회
+# 개발자의 ID, 이메일, 이름, 성을 조회
+# id 기준 오름차순
+
+WITH PCTABLE AS (
+    SELECT BIT_OR(CODE) AS CODE
+    FROM SKILLCODES
+    WHERE NAME="Python" OR NAME="C#"
+)
+    
+SELECT ID, EMAIL, FIRST_NAME, LAST_NAME
+FROM DEVELOPERS
+WHERE SKILL_CODE&(SELECT CODE FROM PCTABLE)>0
+ORDER BY ID
