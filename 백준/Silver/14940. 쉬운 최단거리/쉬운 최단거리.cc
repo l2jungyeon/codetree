@@ -1,74 +1,78 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <climits>
+#include <tuple>
+#include <algorithm>
+
 using namespace std;
 
-int n, m;
-int x, y; //목표지점
+int dx[4] = { 1,-1,0,0 };
+int dy[4] = { 0,0,-1,1 };
 
-int dx[] = { 0,0,1,-1 };
-int dy[] = { 1,-1,0,0 };
+vector<vector<int>> bfs(int x, int y, vector<vector<int>> vec) {
+    //각 지점에서 목표지점까지의 거리
+    int n = vec.size();
+    int m = vec[0].size();
+    vector<vector<int>> dp(n, vector<int>(m, 0));
+    vector<vector<bool>> visited(n, vector<bool>(m));
 
-void solve(const vector<vector<int>>& map, vector<vector<int>>& dp) {
-	//vector<vector<int>> dp(n, vector<int>(m));
-	vector<vector<bool>> visited(n, vector<bool>(m,false));
+    queue<tuple<int, int, int>> q; //거리, x, y
+    q.push({ 0,x,y });
 
-	queue<pair<int, int>> q;
+    while (!q.empty()) {
+        int dist = get<0>(q.front());
+        int curx = get<1>(q.front());
+        int cury = get<2>(q.front());
+        q.pop();
 
-	q.push({ x,y });
-	dp[x][y] = 0;
-	visited[x][y] = true;
+        if (visited[curx][cury]) continue;
+        visited[curx][cury] = true;
 
-	while (!q.empty()) {
-		int curx = q.front().first;
-		int cury = q.front().second;
-		int dist = dp[curx][cury];
-		q.pop();
+        dp[curx][cury] = dist;
 
-		for (int i = 0; i < 4; i++) {
-			int nextX = curx + dx[i];
-			int nextY = cury + dy[i];
+        for (int i = 0; i < 4; i++) {
+            int nx = curx + dx[i];
+            int ny = cury + dy[i];
 
-			if (nextX >= 0 && nextX < n && nextY >= 0 && nextY < m
-				&& visited[nextX][nextY]==false
-				&& map[nextX][nextY] != 0) { //다음꺼가 못가는 땅이 아니면
-					dp[nextX][nextY] = dist + 1;
-					q.push({ nextX,nextY });
-					visited[nextX][nextY] = true;
-			}
-		}
-	}
+            if (nx >= 0 && nx < n && ny >= 0 && ny < m
+                && !visited[nx][ny] && vec[nx][ny] != 0) {
+                q.push({ dist + 1,nx,ny });
+            }
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (visited[i][j] == false && vec[i][j] == 1) {
+                dp[i][j] = -1;
+            }
+        }
+    }
+
+    return dp;
 }
 
 int main() {
-	cin >> n >> m;
-	vector<vector<int>> map(n, vector<int>(m));
+    int n, m;
+    cin >> n >> m;
 
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			cin >> map[i][j];
-			//0은 갈 수 없는 땅이고 1은 갈 수 있는 땅, 2는 목표지점이다. 
-			//입력에서 2는 단 한개
-			//2부터 시작해서 각 지점까지의 거리를 계산하면 될듯
-			if (map[i][j] == 2) {
-				x = i;
-				y = j;
-			}
-		}
-	}
+    vector<vector<int>> vec(n, vector<int>(m));
+    int x, y;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cin >> vec[i][j];
+            //0은 못가는땅, 1은 갈수잇는, 2는 목표
+            if (vec[i][j] == 2) {
+                x = i; y = j;
+            }
+        }
+    }
 
-	//원래 갈 수 없는 땅 0을 출력하고, 
-	// 원래 갈 수 있는 땅인 부분 중에서 도달할 수 없는 위치는 -1을 출력
-	vector<vector<int>> dp(n, vector<int>(m));
-	solve(map, dp);
-
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			if (map[i][j] == 1 && dp[i][j] == 0) cout << "-1" << " ";
-			else cout << dp[i][j] << " ";
-		}
-		cout << "\n";
-	}
-
+    vector<vector<int>> dp = bfs(x, y, vec);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cout << dp[i][j] << " ";
+        }
+        cout << "\n";
+    }
 }
