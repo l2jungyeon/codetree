@@ -12,13 +12,13 @@
 
 ### 제출 일자
 
-2025년 1월 23일 20:35:17
+2025년 2월 21일 14:28:58
 
 ### 문제 설명
 
 <p>로마의 장군 카이사르는 로마군의 작전을 적이 모르게 하기 위하여 암호를 사용했다. 카이사르는 다음과 같이 문장에 있는 모든 알파벳 글자를 몇 칸 뒤의 알파벳으로 바꾸는 방식으로 암호를 만들었다. 아래 표는 모든 글자를 17칸 뒤의 알파벳으로 바꿨을 때 각 글자가 어떤 알파벳으로 바뀌는지 나타낸 표이다.</p>
 
-<p style="text-align: center;"><img alt="" src="" style="height:67px; width:969px"></p>
+<p style="text-align: center;"><img alt="" src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/14584/table.png" style="height:67px; width:969px"></p>
 
 <p>이 방법에 따라 ‘Baekjoon Online Judge’를 암호화하면 ‘Srvbaffe Feczev Aluxv’가 된다.</p>
 
