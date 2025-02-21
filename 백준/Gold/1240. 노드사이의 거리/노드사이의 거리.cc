@@ -1,58 +1,51 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
 #include <queue>
+#include <algorithm>
+
 using namespace std;
 
-//BFS:큐
-int solve(int a, int b, vector<vector<pair<int, int>>> tree) {
-	int n = tree.size() - 1;
-	queue<pair<int,int>> q; //자신과 부모가 연결된 거리, idx 
-	vector<bool> visited(n + 1,false);
-	q.push({ a,0 });
+//bfs
+int bfs(int start, int end, vector<vector<pair<int, int>>> tree) {
+    queue<pair<int, int>> q; //거리, 노드
+    q.push({ 0,start });
 
-	int dist = 0;
+    vector<bool> visited(tree.size(), false);
+    while (!q.empty()) {
+        int dist = q.front().first;
+        int node = q.front().second;
+        q.pop();
 
-	while (!q.empty()) {
-		int start = q.front().first;
-		int d = q.front().second;
-		q.pop();
+        if (visited[node]) continue;
+        visited[node] = true;
 
-		if (start == b) {
-			return d;
-		}
-		if (visited[start]) continue;
-		visited[start] = true;
-		
-		for (pair<int,int> p : tree[start]) {
-			int end = p.first;
-			int endDist = p.second;
-			q.push({ end, endDist + d});
-		}
-	}
+        if (node == end) {
+            return dist;
+        }
 
-	return 0;
+        for (auto& p : tree[node]) {
+            if (!visited[p.first])
+                q.push({ dist + p.second, p.first });
+        }
+    }
 }
 
 int main() {
-	int n, m;
-	cin >> n >> m;
+    int n, m;
+    cin >> n >> m;
 
-	vector<vector<pair<int,int>>> tree(n+1); //idx 0은 없음
-	for (int i = 0; i < n - 1; i++) {
-		int a, b, c;
-		cin >> a >> b >> c;
-		tree[a].push_back({ b,c });
-		tree[b].push_back({ a,c });
-	}
+    vector<vector<pair<int, int>>> tree(n + 1);
+    for (int i = 0; i < n - 1; i++) {
+        int a, b, c;
+        cin >> a >> b >> c;
+        tree[a].push_back({ b,c });
+        tree[b].push_back({ a,c });
+    }
 
-	while (m--) {
-		int a, b;
-		cin >> a >> b;
-		//int dist = 0;
-		
-		cout << solve(a, b, tree) << "\n";
-		//cout << dfs(a, b, 0, tree) << "\n";
+    while (m--) {
+        int a, b;
+        cin >> a >> b;
+        cout << bfs(a, b, tree) << "\n";
+    }
 
-	}
 }
