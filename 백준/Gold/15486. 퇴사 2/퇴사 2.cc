@@ -30,9 +30,6 @@ int main() {
         dp[i] = max(dp[i + day] + coin, dp[i+1]);
     }
 
-    ll ans = 0;
-    for (int i = 0; i < n; i++) {
-        ans = max(ans, dp[i]);
-    }
-    cout << ans;
+    
+    cout << dp[0];
 }
