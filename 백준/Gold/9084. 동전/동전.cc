@@ -20,7 +20,7 @@ int main() {
         vector<int> dp(m + 1, 0);
         //dp[i]: i원을 만드는 방법의 개수
         dp[0] = 1;
-        for (int i = n - 1; i >= 0; i--) {
+        for (int i = 0; i <n; i++) {
             for (int j = 0; j < m + 1; j++) {
                 if (j - coin[i] >= 0) dp[j] += dp[j - coin[i]];
             }
